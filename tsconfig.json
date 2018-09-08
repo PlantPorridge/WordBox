@@ -16,6 +16,17 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@shared/*": [
+        "src/app/shared/*"
+      ],
+      "@auth/*": [
+        "src/app/auth/*"
+      ],
+      "@word/*": [
+        "src/app/word/*"
+      ]
+    }
   }
 }
