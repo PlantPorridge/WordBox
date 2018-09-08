@@ -1,4 +1,6 @@
 <p>
-  word-master works!
+  WORD MASTER
 </p>
-<app-word-list [words]="loadedWords"></app-word-list>
+<app-word-add (addWord)="addWord($event)"></app-word-add>
+
+<app-word-list [words]="words$ | async"></app-word-list>

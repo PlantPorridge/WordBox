@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgxsModule } from '@ngxs/store';
+import { WordAddComponent } from '@word/word-add/word-add.component';
+import { WordItemComponent } from '@word/word-item/word-item.component';
+import { WordListComponent } from '@word/word-list/word-list.component';
+import { WordMasterState } from '@word/word-master/state/word-master.state';
 import { WordMasterComponent } from './word-master.component';
+
 
 describe('WordMasterComponent', () => {
   let component: WordMasterComponent;
@@ -8,9 +14,15 @@ describe('WordMasterComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ WordMasterComponent ]
+      imports: [
+        ReactiveFormsModule,
+        NgxsModule.forRoot([
+          WordMasterState
+        ])
+      ],
+      declarations: [WordMasterComponent, WordListComponent, WordAddComponent, WordItemComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

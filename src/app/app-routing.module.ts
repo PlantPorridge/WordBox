@@ -1,3 +1,4 @@
+import { APP_BASE_HREF } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/shared/guards/auth.guard';
@@ -26,6 +27,7 @@ const routes: Routes = [
     exports: [
         RouterModule
     ],
+    providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
     declarations: []
 })
 export class AppRoutingModule { }
