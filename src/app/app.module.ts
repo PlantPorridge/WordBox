@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
-import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { NgxsModule } from '@ngxs/store';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -17,6 +18,7 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
 
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
@@ -24,7 +26,7 @@ import { AppComponent } from './app.component';
     NgxsModule.forRoot([
 
     ]),
-    NgxsStoragePluginModule.forRoot(),
+    // NgxsStoragePluginModule.forRoot(),
     NgxsLoggerPluginModule.forRoot({
       collapsed: true
     }),
@@ -34,7 +36,7 @@ import { AppComponent } from './app.component';
 
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
-  providers: [],
+  providers: [AngularFirestore],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

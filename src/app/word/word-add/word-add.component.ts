@@ -30,6 +30,7 @@ export class WordAddComponent implements OnInit {
 
   private applyChanges() {
     this.newWord = {
+      id: null,
       word: this.form.get('word').value
     };
   }
@@ -38,6 +39,7 @@ export class WordAddComponent implements OnInit {
     if (this.form.valid) {
       this.applyChanges();
       this.addWord.emit(this.newWord);
+      this.form.reset();
     }
   }
 

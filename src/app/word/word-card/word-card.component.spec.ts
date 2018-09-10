@@ -1,14 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
-import { WordAddComponent } from '@word/word-add/word-add.component';
 import { WordCardComponent } from '@word/word-card/word-card.component';
-import { WordListComponent } from '@word/word-list/word-list.component';
 import { WordMasterState } from '@word/word-master/state/word-master.state';
 import { BehaviorSubject } from 'rxjs';
-import { WordMasterComponent } from './word-master.component';
 
 const FirestoreStub = {
   collection: (name: string) => ({
@@ -28,19 +24,14 @@ const FireAuthStub = {
   }),
 };
 
-describe('WordMasterComponent', () => {
-  let component: WordMasterComponent;
-  let fixture: ComponentFixture<WordMasterComponent>;
+describe('WordCardComponent', () => {
+  let component: WordCardComponent;
+  let fixture: ComponentFixture<WordCardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        NgxsModule.forRoot([
-          WordMasterState
-        ])
-      ],
-      declarations: [WordMasterComponent, WordListComponent, WordAddComponent, WordCardComponent],
+      declarations: [WordCardComponent],
+      imports: [NgxsModule.forRoot([WordMasterState])],
       providers: [
         { provide: AngularFirestore, useValue: FirestoreStub },
         { provide: AngularFireAuth, useValue: FireAuthStub }
@@ -50,7 +41,7 @@ describe('WordMasterComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WordMasterComponent);
+    fixture = TestBed.createComponent(WordCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

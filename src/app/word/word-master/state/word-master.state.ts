@@ -1,6 +1,10 @@
-import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { DocumentChangeAction } from '@angular/fire/firestore';
+import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
 import { WordItem } from '@shared/interfaces/word/word-item.interface';
-import { AddWordAction, GetWordsAction } from '@word/word-master/state/word-master.actions';
+import { WordService } from '@word/services/word.service';
+import { AddedWord, AddWord, ModifiedWord, QueryWords, RemovedWord, RemoveWord, Success, UpdateWord } from '@word/word-master/state/word-master.actions';
+import { map, mergeMap, take, tap } from 'rxjs/operators';
 
 export class AppStateModel {
   public words: WordItem[];
@@ -12,27 +16,117 @@ export class AppStateModel {
     words: []
   }
 })
-export class WordMasterState {
+export class WordMasterState implements NgxsOnInit {
+
+  private uid: string;
+
+  constructor(
+    private wordService: WordService,
+    private afAuth: AngularFireAuth
+  ) { }
+
+  ngxsOnInit(ctx?: StateContext<any>) {
+    //Hack for testing
+    if (!this.afAuth.user) return;
+
+    this.afAuth.user.pipe(take(1)).subscribe((user) => {
+      if (user) {
+        this.uid = user.uid;
+        ctx.dispatch(new QueryWords(user.uid));
+      }
+    });
+  }
 
   @Selector() static words(state: AppStateModel) {
     return state.words;
   }
 
-  @Action(GetWordsAction)
-  GetWordsAction(ctx: StateContext<AppStateModel>, action: GetWordsAction) {
-    //TODO: Replace with API call
-    let loadedWords: WordItem[] = [
-      { word: "One" },
-      { word: "Two" },
-      { word: "Three" }
-    ];
-
-    ctx.setState({ words: [...loadedWords] });
+  @Action(QueryWords, { cancelUncompleted: true })
+  QueryWords(ctx: StateContext<AppStateModel>, action: QueryWords) {
+    return this.wordService.queryWords(action.uid).pipe(
+      mergeMap(actions => actions),
+      tap((action: DocumentChangeAction<WordItem>) => {
+        const word = WordService.actionToWordItem(action);
+        switch (action.type) {
+          case 'added':
+            ctx.dispatch(new AddedWord(word));
+            break;
+          case 'removed':
+            ctx.dispatch(new RemovedWord(word));
+            break;
+          case 'modified':
+            ctx.dispatch(new ModifiedWord(word));
+            break;
+        }
+      })
+    );
   }
 
-  @Action(AddWordAction)
-  AddWordAction(ctx: StateContext<AppStateModel>, action: AddWordAction) {
+  @Action(AddedWord)
+  AddedWord(ctx: StateContext<AppStateModel>, action: AddedWord) {
     const state = ctx.getState();
-    ctx.setState({ words: [action.newWord, ...state.words] });
+    ctx.setState({ words: [action.word, ...state.words] });
   }
+
+  @Action(RemovedWord)
+  RemovedWord(ctx: StateContext<AppStateModel>, action: RemovedWord) {
+    const state = ctx.getState();
+
+    const index = state.words.map(w => w.id).indexOf(action.word.id);
+
+    ctx.setState({
+      words: [
+        ...state.words.slice(0, index),
+        ...state.words.slice(index + 1)
+      ]
+    });
+  }
+
+  @Action(ModifiedWord)
+  ModifiedWord(ctx: StateContext<AppStateModel>, action: ModifiedWord) {
+    const state = ctx.getState();
+
+    const index = state.words.map(w => w.id).indexOf(action.word.id);
+
+    ctx.setState({
+      words: [
+        ...state.words.slice(0, index),
+        action.word,
+        ...state.words.slice(index + 1)
+      ]
+    });
+  }
+
+  @Action(AddWord)
+  AddWord(ctx: StateContext<AppStateModel>, action: AddWord) {
+    this.wordService.addWord(this.uid, action.word).pipe(
+      map(() => {
+        return ctx.dispatch(new Success());
+      })
+    );
+  }
+
+  @Action(RemoveWord)
+  RemoveWord(ctx: StateContext<AppStateModel>, action: RemoveWord) {
+    return this.wordService.removeWord(this.uid, action.word).pipe(
+      map(() => {
+        return ctx.dispatch(new Success());
+      })
+    );
+  }
+
+  @Action(UpdateWord)
+  UpdateWord(ctx: StateContext<AppStateModel>, action: UpdateWord) {
+    return this.wordService.updateWord(this.uid, action.word).pipe(
+      map(() => {
+        return ctx.dispatch(new Success());
+      })
+    );
+  }
+
+  @Action(Success)
+  Success(ctx: StateContext<AppStateModel>, action: Success) {
+
+  }
+
 }

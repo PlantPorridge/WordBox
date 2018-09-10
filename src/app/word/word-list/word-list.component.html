@@ -1,1 +1,3 @@
-<app-word-item *ngFor="let word of words" [word]="word"></app-word-item>
+<section class="word-list__words">
+    <app-word-card *ngFor="let word of words" [word]="word" [@flyInOut]="'in'"></app-word-card>
+</section>
