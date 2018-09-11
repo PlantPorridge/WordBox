@@ -1,0 +1,25 @@
+sudo: required
+dist: trusty
+language: node_js
+node_js:
+- stable
+before_install:
+- export CHROME_BIN=/usr/bin/google-chrome
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- sudo apt-get update
+- sudo apt-get install -y libappindicator1 fonts-liberation
+- wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+- sudo dpkg -i google-chrome*.deb
+branches:
+  only:
+  - master
+before_script:
+- npm install -g @angular/cli
+script:
+- ng build --prod
+deploy:
+  skip_cleanup: true
+  provider: firebase
+  token:
+    secure: "DKxkVXIX0hrRvfyz16BYIVY4wz6yRZVxgDY8VH4mt3EfMcVVFJNMPFV1IVHx8WITVSO5sq+s+80CH+El0ievGhEiCuxan/9b67X/v96MB4h/os59gVuO1PukK8nCB2yppxu+6TkNf/m8gbBXO6ZbDlGFdFXbOEdlf+iksocJneQX8rymjW+eVya8D6UH+W90aJyT/bheUuXtJzUKwVLnpj56QNP1/lyQZGapjsdqFzeP51rNAeJAhCv2yqhlg4FiPTsB8HTPZElciMm9dkGkVyg0D/349ZN0zOLnh7lVcIjhtVh6MzbLOmoIM8WhTtVz819EBkMD82S3fL++YwwIWG/WLv4ii8XP64303jsGrl1/YB7gfa6koCYH6IQ4euvydGVeSuAYjGkH08PeW7qnzK/1HujPcJyzrY2aMF7iNJMiMFwf8AdBxD1Uksfv/zYSD8COJYLijWsWDgzcD646OMwPO631+v6tFYkIpBFd0DpYzUqbzqbo39lBlSi5JSotPV/GCTuNAVKFLhhhZ0Bi2Pp96/7VF3OC/OCg2hjahqbetlo+dpO3W4OUNsH6nD4J2amvdrNb37w1kov4CmDhGWLjcGs+Tm8XdHAA5Mgqw4jW8zhZqpTmnUMO60umZon9brNrzjmvy9RxjhflC6wT9KHl2bXmBzawzmjT+cKttYs="
