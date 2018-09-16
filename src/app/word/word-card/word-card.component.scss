@@ -1,6 +1,6 @@
 .word__card {
     display: grid;
-    grid-template-columns: 1fr 2rem;
+    grid-template-columns: 1fr 2rem 2rem;
     grid-template-rows: 1fr;
     box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
     justify-items: left;
@@ -14,6 +14,14 @@
     background-color: white;
     border-radius: 1.75rem;
     animation: 1.25s ease-in-out 0ms 1 fadein;
+  }
+
+  .word__starred {
+      cursor: pointer;
+      height: 3rem;
+      width: 2rem;
+      box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
+      border-color: transparent;
   }
 
   .word__remove {

@@ -27,8 +27,9 @@ export class WordService {
     }
 
     public updateWord(uid: string, word: Partial<WordItem>): Observable<void> {
+        let path = `users/${uid}/words/${word.id}`;
         delete word.id;
-        return from(this.afs.doc<WordItem>(`users/${uid}/words/${word.id}`).update(word));
+        return from(this.afs.doc<WordItem>(path).update(word));
     }
 
     private getWords(uid: string, state: DocumentChangeType[]): Observable<DocumentChangeAction<WordItem>[]> {

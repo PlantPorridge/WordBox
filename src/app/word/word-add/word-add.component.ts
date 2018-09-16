@@ -31,7 +31,8 @@ export class WordAddComponent implements OnInit {
   private applyChanges() {
     this.newWord = {
       id: null,
-      word: this.form.get('word').value
+      word: this.form.get('word').value,
+      starred: false
     };
   }
 

@@ -20,6 +20,10 @@ export class WordCardComponent implements OnInit {
   ngOnInit() {
   }
 
+  toggleStarred(){
+    this.store.dispatch(new UpdateWord(Object.assign({}, this.word, { starred: !this.word.starred })))
+  }
+
   remove() {
     this.store.dispatch(new RemoveWord(this.word));
   }

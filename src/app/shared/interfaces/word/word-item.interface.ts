@@ -2,4 +2,5 @@ import { FirestoreIdentity } from "@shared/interfaces/firestore/firestore-identi
 
 export interface WordItem extends FirestoreIdentity {
     word: string;
+    starred: boolean;
 }
