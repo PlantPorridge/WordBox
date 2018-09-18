@@ -1,6 +1,8 @@
 <section class="word__card">
   <span class="word__word">{{word?.word}}</span>
-  <button class="word__starred" (click)="toggleStarred()">{{word?.starred ? 'S' : ''}}</button>
+  <i class="material-icons word__starred" (click)="toggleStarred()" [@star]="word?.starred ? 'active' : 'inactive'">
+    {{word?.starred ? 'star' : 'star_border'}}
+  </i>
   <button class="word__remove" (click)="remove()"></button>
   <!-- <button (click)="update()">Update</button> -->
 </section>

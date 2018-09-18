@@ -18,10 +18,11 @@
 
   .word__starred {
       cursor: pointer;
-      height: 3rem;
-      width: 2rem;
-      box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
-      border-color: transparent;
+      color: gold;
+    //   height: 3rem;
+    //   width: 2rem;
+    //   box-shadow: 0 0 2rem rgba(0, 0, 255, 0.1);
+    //   border-color: transparent;
   }
 
   .word__remove {

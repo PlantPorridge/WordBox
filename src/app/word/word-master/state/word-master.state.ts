@@ -86,14 +86,19 @@ export class WordMasterState implements NgxsOnInit {
   ModifiedWord(ctx: StateContext<AppStateModel>, action: ModifiedWord) {
     const state = ctx.getState();
 
-    const index = state.words.map(w => w.id).indexOf(action.word.id);
+    const actionIndex = state.words.map(w => w.id).indexOf(action.word.id);
 
-    ctx.setState({
-      words: [
-        ...state.words.slice(0, index),
-        action.word,
-        ...state.words.slice(index + 1)
-      ]
+    ctx.patchState({
+      words: state.words.map((word, index) => {
+        if (index !== actionIndex) {
+          return word;
+        }
+
+        return {
+          ...word,
+          ...action.word
+        };
+      })
     });
   }
 

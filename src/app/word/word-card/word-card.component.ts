@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { WordItem } from '@shared/interfaces/word/word-item.interface';
@@ -7,7 +8,17 @@ import { RemoveWord, UpdateWord } from '@word/word-master/state/word-master.acti
   selector: 'app-word-card',
   templateUrl: './word-card.component.html',
   styleUrls: ['./word-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    trigger('star', [
+      state('active', style({})),
+      state('inactive', style({})),
+      transition('* => active', [
+        style({ transform: 'rotate(360deg)' }),
+        animate('750ms ease-out')
+      ]),
+    ])
+  ]
 
 })
 export class WordCardComponent implements OnInit {
@@ -20,7 +31,7 @@ export class WordCardComponent implements OnInit {
   ngOnInit() {
   }
 
-  toggleStarred(){
+  toggleStarred() {
     this.store.dispatch(new UpdateWord(Object.assign({}, this.word, { starred: !this.word.starred })))
   }
 
