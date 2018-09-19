@@ -16,7 +16,6 @@ branches:
   - master
 before_script:
 - npm install -g @angular/cli
-- npm install -g tslint
 script:
 - ng build --prod
 deploy:
