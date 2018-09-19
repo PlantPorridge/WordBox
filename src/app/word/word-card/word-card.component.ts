@@ -32,7 +32,7 @@ export class WordCardComponent implements OnInit {
   }
 
   toggleStarred() {
-    this.store.dispatch(new UpdateWord(Object.assign({}, this.word, { starred: !this.word.starred })))
+    this.store.dispatch(new UpdateWord(Object.assign({}, this.word, { starred: !this.word.starred })));
   }
 
   remove() {
