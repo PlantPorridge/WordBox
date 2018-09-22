@@ -1,0 +1,16 @@
+<div class="menu__loggedin" *ngIf="afAuth.user | async as user; else showLogin">
+
+  <a class="menu__link" routerLink="/word">
+    <h5>Words</h5>
+  </a>
+
+
+  <img class="menu__user-photo" src={{user.photoURL}} (click)="logout()">
+  <!-- <p>{{user | json}}</p> -->
+  <!-- <button (click)="logout()">Logout</button> -->
+</div>
+<ng-template #showLogin>
+  <div class="menu__loggedout">
+    <button (click)="login()">Login</button>
+  </div>
+</ng-template>

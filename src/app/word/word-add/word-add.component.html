@@ -1,4 +1,8 @@
-<form [formGroup]="form" (ngSubmit)="outputWord()">
-  <input type="text" formControlName="word">
-  <button type="submit">Add</button>
+<form class="word-add__form" [formGroup]="form" (ngSubmit)="outputWord()">
+  <input class="word-add__input" type="text" formControlName="word">
+  <button class="word-add__submit" type="submit">
+    <i class="material-icons">
+      add
+    </i>
+  </button>
 </form>

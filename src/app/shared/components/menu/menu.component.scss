@@ -1,0 +1,20 @@
+@import "../../../../styles/global";
+
+.menu__loggedin{
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    grid-gap: 30px;
+}
+
+.menu__link {
+    text-decoration: none;
+    color: $light;
+}
+
+.menu__user-photo {
+    height: 40px;
+    width: 40px;
+    border-radius: 20px;
+    cursor: pointer;
+}

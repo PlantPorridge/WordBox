@@ -1,0 +1,23 @@
+@import "../../../../styles/global.scss";
+
+:host {
+    color: $light;
+    display: block;
+}
+
+header {
+    padding: 5px 10px;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+
+.header__title {
+
+}
+
+.header__menu {
+    justify-self: right;
+}
+

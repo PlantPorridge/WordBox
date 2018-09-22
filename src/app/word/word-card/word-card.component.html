@@ -1,8 +1,11 @@
 <section class="word__card">
   <span class="word__word">{{word?.word}}</span>
-  <i class="material-icons word__starred" (click)="toggleStarred()" [@star]="word?.starred ? 'active' : 'inactive'">
+  <span class="word__define">{{word?.definition || 'to define'}}</span>
+
+  <i class="material-icons word__star" (click)="toggleStarred()" [@star]="word?.starred ? 'active' : 'inactive'">
     {{word?.starred ? 'star' : 'star_border'}}
   </i>
-  <button class="word__remove" (click)="remove()"></button>
-  <!-- <button (click)="update()">Update</button> -->
+  <i class="material-icons word__remove" (click)="remove()">
+    delete_forever
+  </i>
 </section>
