@@ -3,7 +3,8 @@ import { DocumentChangeAction } from '@angular/fire/firestore';
 import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
 import { WordItem } from '@shared/interfaces/word/word-item.interface';
 import { WordService } from '@word/services/word.service';
-import { AddedWord, AddWord, ModifiedWord, QueryWords, RemovedWord, RemoveWord, Success, UpdateWord } from '@word/word-master/state/word-master.actions';
+import { AddedWord, AddWord, ModifiedWord, QueryWords,
+  RemovedWord, RemoveWord, Success, UpdateWord } from '@word/word-master/state/word-master.actions';
 import { map, mergeMap, take, tap } from 'rxjs/operators';
 
 export class AppStateModel {
@@ -20,14 +21,20 @@ export class WordMasterState implements NgxsOnInit {
 
   private uid: string;
 
+  @Selector() static words(state: AppStateModel) {
+    return state.words;
+  }
+
   constructor(
     private wordService: WordService,
     private afAuth: AngularFireAuth
   ) { }
 
   ngxsOnInit(ctx?: StateContext<any>) {
-    //Hack for testing
-    if (!this.afAuth.user) return;
+    // Hack for testing
+    if (!this.afAuth.user) {
+      return;
+    }
 
     this.afAuth.user.pipe(take(1)).subscribe((user) => {
       if (user) {
@@ -37,17 +44,13 @@ export class WordMasterState implements NgxsOnInit {
     });
   }
 
-  @Selector() static words(state: AppStateModel) {
-    return state.words;
-  }
-
   @Action(QueryWords, { cancelUncompleted: true })
   QueryWords(ctx: StateContext<AppStateModel>, action: QueryWords) {
     return this.wordService.queryWords(action.uid).pipe(
-      mergeMap(actions => actions),
-      tap((action: DocumentChangeAction<WordItem>) => {
-        const word = WordService.actionToWordItem(action);
-        switch (action.type) {
+      mergeMap(dcActions => dcActions),
+      tap((dcAction: DocumentChangeAction<WordItem>) => {
+        const word = WordService.actionToWordItem(dcAction);
+        switch (dcAction.type) {
           case 'added':
             ctx.dispatch(new AddedWord(word));
             break;

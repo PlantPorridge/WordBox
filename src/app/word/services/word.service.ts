@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
-import { AngularFirestore, DocumentChangeAction, DocumentChangeType, DocumentReference } from "@angular/fire/firestore";
-import { WordItem } from "@shared/interfaces/word/word-item.interface";
-import { from, Observable } from "rxjs";
+import { Injectable } from '@angular/core';
+import { AngularFirestore, DocumentChangeAction, DocumentChangeType, DocumentReference } from '@angular/fire/firestore';
+import { WordItem } from '@shared/interfaces/word/word-item.interface';
+import { from, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -10,6 +10,12 @@ export class WordService {
 
     constructor(private afs: AngularFirestore) {
 
+    }
+
+    public static actionToWordItem(action: DocumentChangeAction<WordItem>) {
+        const data = action.payload.doc.data() as WordItem;
+        const id = action.payload.doc.id;
+        return { ...data, id } as WordItem;
     }
 
     public queryWords(uid: string): Observable<DocumentChangeAction<WordItem>[]> {
@@ -27,19 +33,13 @@ export class WordService {
     }
 
     public updateWord(uid: string, word: Partial<WordItem>): Observable<void> {
-        let path = `users/${uid}/words/${word.id}`;
+        const path = `users/${uid}/words/${word.id}`;
         delete word.id;
         return from(this.afs.doc<WordItem>(path).update(word));
     }
 
     private getWords(uid: string, state: DocumentChangeType[]): Observable<DocumentChangeAction<WordItem>[]> {
-        let userWordsCollection = this.afs.collection<WordItem>(`users/${uid}/words`);
+        const userWordsCollection = this.afs.collection<WordItem>(`users/${uid}/words`);
         return userWordsCollection.stateChanges(state);
-    }
-
-    public static actionToWordItem(action: DocumentChangeAction<WordItem>) {
-        const data = action.payload.doc.data() as WordItem;
-        const id = action.payload.doc.id;
-        return { ...data, id } as WordItem;
     }
 }

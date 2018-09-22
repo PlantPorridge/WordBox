@@ -23,6 +23,6 @@ export class SharedModule {
     return {
       ngModule: SharedModule,
       providers: [AuthGuard]
-    }
+    };
   }
 }

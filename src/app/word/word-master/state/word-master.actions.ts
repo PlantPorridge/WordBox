@@ -1,4 +1,4 @@
-import { WordItem } from "@shared/interfaces/word/word-item.interface";
+import { WordItem } from '@shared/interfaces/word/word-item.interface';
 
 export class QueryWords {
   static readonly type = '[Word Master] Query Words';
