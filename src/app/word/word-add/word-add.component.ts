@@ -32,6 +32,8 @@ export class WordAddComponent implements OnInit {
     this.newWord = {
       id: null,
       word: this.form.get('word').value,
+      definition: null,
+      partOfSpeech: null,
       starred: false
     };
   }

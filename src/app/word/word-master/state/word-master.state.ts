@@ -3,8 +3,8 @@ import { DocumentChangeAction } from '@angular/fire/firestore';
 import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
 import { WordItem } from '@shared/interfaces/word/word-item.interface';
 import { WordService } from '@word/services/word.service';
-import { AddedWord, AddWord, ModifiedWord, QueryWords,
-  RemovedWord, RemoveWord, Success, UpdateWord } from '@word/word-master/state/word-master.actions';
+import { AddedWord, AddWord, ModifiedWord, QueryWords, RemovedWord, RemoveWord, Success, UpdateWord } from '@word/word-master/state/word-master.actions';
+import { Subscription } from 'rxjs';
 import { map, mergeMap, take, tap } from 'rxjs/operators';
 
 export class AppStateModel {
@@ -20,6 +20,7 @@ export class AppStateModel {
 export class WordMasterState implements NgxsOnInit {
 
   private uid: string;
+  private querySubscription: Subscription;
 
   @Selector() static words(state: AppStateModel) {
     return state.words;
@@ -46,7 +47,11 @@ export class WordMasterState implements NgxsOnInit {
 
   @Action(QueryWords, { cancelUncompleted: true })
   QueryWords(ctx: StateContext<AppStateModel>, action: QueryWords) {
-    return this.wordService.queryWords(action.uid).pipe(
+    if (this.querySubscription != null) {
+      this.querySubscription.unsubscribe();
+    }
+
+    this.querySubscription = this.wordService.queryWords(action.uid).pipe(
       mergeMap(dcActions => dcActions),
       tap((dcAction: DocumentChangeAction<WordItem>) => {
         const word = WordService.actionToWordItem(dcAction);
@@ -62,7 +67,7 @@ export class WordMasterState implements NgxsOnInit {
             break;
         }
       })
-    );
+    ).subscribe();
   }
 
   @Action(AddedWord)

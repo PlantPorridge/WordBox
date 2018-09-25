@@ -1,11 +1,23 @@
 import { async, TestBed } from '@angular/core/testing';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { SharedModule } from '@shared/shared.module';
+import { of } from 'rxjs';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { AppComponent } from './app.component';
+
+const AngularFireMocks = {
+  user: of(false)
+};
+
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        AppRoutingModule
+        AppRoutingModule,
+        SharedModule
+      ],
+      providers: [
+        { provide: AngularFireAuth, useValue: AngularFireMocks }
       ],
       declarations: [
         AppComponent

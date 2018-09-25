@@ -1,6 +1,8 @@
+import { HttpClientModule } from '@angular/common/http';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
 import { WordCardComponent } from '@word/word-card/word-card.component';
 import { WordMasterState } from '@word/word-master/state/word-master.state';
@@ -31,7 +33,7 @@ describe('WordCardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [WordCardComponent],
-      imports: [NgxsModule.forRoot([WordMasterState])],
+      imports: [NgxsModule.forRoot([WordMasterState]), HttpClientModule, NoopAnimationsModule],
       providers: [
         { provide: AngularFirestore, useValue: FirestoreStub },
         { provide: AngularFireAuth, useValue: FireAuthStub }

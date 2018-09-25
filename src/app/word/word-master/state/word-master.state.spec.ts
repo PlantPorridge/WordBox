@@ -34,9 +34,9 @@ describe('App actions', () => {
   }));
 
   it('should create an action and add an item', () => {
-    store.dispatch(new AddedWord({ word: 'test', id: null, starred: false }));
+    store.dispatch(new AddedWord({ word: 'test', id: null, starred: false, definition: null, partOfSpeech: null }));
     store.select(state => state.wordmaster.words).subscribe((words: string[]) => {
-      expect(words).toEqual(jasmine.objectContaining([{ word: 'test', id: null }]));
+      expect(words).toEqual(jasmine.objectContaining([{ word: 'test', id: null, starred: false, definition: null, partOfSpeech: null }]));
     });
   });
 

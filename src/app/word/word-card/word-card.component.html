@@ -1,6 +1,6 @@
 <section class="word__card">
   <span class="word__word">{{word?.word}}</span>
-  <span class="word__define">{{word?.definition || 'to define'}}</span>
+  <span class="word__define">{{word?.definition || 'to define'}} <button (click)="lookup()">Lookup</button></span>
 
   <i class="material-icons word__star" (click)="toggleStarred()" [@star]="word?.starred ? 'active' : 'inactive'">
     {{word?.starred ? 'star' : 'star_border'}}

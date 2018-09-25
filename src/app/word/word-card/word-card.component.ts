@@ -2,7 +2,9 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { WordItem } from '@shared/interfaces/word/word-item.interface';
+import { DefinitionService } from '@word/services/definition.service';
 import { RemoveWord, UpdateWord } from '@word/word-master/state/word-master.actions';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-word-card',
@@ -26,7 +28,10 @@ export class WordCardComponent implements OnInit {
   @Input()
   word: WordItem;
 
-  constructor(private store: Store) { }
+  constructor(
+    private store: Store,
+    private definitionService: DefinitionService
+  ) { }
 
   ngOnInit() {
   }
@@ -41,6 +46,13 @@ export class WordCardComponent implements OnInit {
 
   update() {
     this.store.dispatch(new UpdateWord(Object.assign({}, this.word, { word: this.word.word + 'U' })));
+  }
+
+  lookup() {
+    console.log('lookup')
+    this.definitionService.getDefinitions(this.word.word).pipe(
+      map(resp => DefinitionService.responseToDefine(resp))
+    ).subscribe((a) => console.log(a));
   }
 
 }
