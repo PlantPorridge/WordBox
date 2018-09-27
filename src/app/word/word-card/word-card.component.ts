@@ -1,9 +1,12 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { WordDefinition } from '@shared/interfaces/word/word-definition.interface';
 import { WordItem } from '@shared/interfaces/word/word-item.interface';
-import { DefinitionService } from '@word/services/definition.service';
+import { GetDefintions } from '@word/state/definition/definition.actions';
+import { DefinitionState } from '@word/state/definition/definition.state';
 import { RemoveWord, UpdateWord } from '@word/word-master/state/word-master.actions';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -28,9 +31,14 @@ export class WordCardComponent implements OnInit {
   @Input()
   word: WordItem;
 
+  @Select(DefinitionState.getWordDefinitionsFn) getWordDefinitionsFn$: Observable<(word: string) => WordDefinition[]>;
+
+  get definitions$() {
+    return this.getWordDefinitionsFn$.pipe(map(filterFn => filterFn(this.word.word)));
+  }
+
   constructor(
-    private store: Store,
-    private definitionService: DefinitionService
+    private store: Store
   ) { }
 
   ngOnInit() {
@@ -49,10 +57,7 @@ export class WordCardComponent implements OnInit {
   }
 
   lookup() {
-    console.log('lookup')
-    this.definitionService.getDefinitions(this.word.word).pipe(
-      map(resp => DefinitionService.responseToDefine(resp))
-    ).subscribe((a) => console.log(a));
+    this.store.dispatch(new GetDefintions(this.word.word));
   }
 
 }

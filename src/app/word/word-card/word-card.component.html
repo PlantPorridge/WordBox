@@ -1,6 +1,12 @@
 <section class="word__card">
-  <span class="word__word">{{word?.word}}</span>
-  <span class="word__define">{{word?.definition || 'to define'}} <button (click)="lookup()">Lookup</button></span>
+  <span class="word__word">{{word?.word}}
+    <i class="material-icons word__lookup" (click)="lookup()">
+      search
+    </i>
+  </span>
+  <div class="word__define">
+    <app-word-definition-list [definitions]="definitions$ | async"></app-word-definition-list>
+  </div>
 
   <i class="material-icons word__star" (click)="toggleStarred()" [@star]="word?.starred ? 'active' : 'inactive'">
     {{word?.starred ? 'star' : 'star_border'}}

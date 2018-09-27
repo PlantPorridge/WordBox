@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { PartOfSpeech } from '@shared/enums/part-of-speech.enum';
 import { WordDefinition } from '@shared/interfaces/word/word-definition.interface';
-import { WordDefinitionComponent } from '@word/word-definition/word-definition/word-definition.component';
+import { WordDefinitionComponent } from '@word/word-definition/word-definition.component';
 import { WordDefinitionListComponent } from './word-definition-list.component';
 
 @Component({
@@ -19,7 +19,7 @@ class TestHostComponent {
   }
 }
 
-fdescribe('WordDefinitionListComponent', () => {
+describe('WordDefinitionListComponent', () => {
   let component: TestHostComponent;
   let fixture: ComponentFixture<TestHostComponent>;
 

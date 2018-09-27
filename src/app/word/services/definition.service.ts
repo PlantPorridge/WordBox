@@ -4,6 +4,7 @@ import { PartOfSpeech } from '@shared/enums/part-of-speech.enum';
 import { GoogleDefineResponse } from '@shared/interfaces/googledictionaryapi/google-define-response.interface';
 import { GoogleDefinition } from '@shared/interfaces/googledictionaryapi/google-definition.interface';
 import { WordDefinition } from '@shared/interfaces/word/word-definition.interface';
+import { Observable } from 'rxjs';
 // import * as request from 'request';
 
 @Injectable({
@@ -28,7 +29,7 @@ export class DefinitionService {
     return definitions;
   }
 
-  public getDefinitions(word: string) {
+  public getDefinitions(word: string): Observable<GoogleDefineResponse> {
     var url = `https://googledictionaryapi.eu-gb.mybluemix.net/?define=${word}&lang=en`;
 
     return this.httpClient.get<GoogleDefineResponse>(url);

@@ -18,7 +18,7 @@ class TestHostComponent {
   }
 }
 
-fdescribe('WordDefinitionComponent', () => {
+describe('WordDefinitionComponent', () => {
   let component: TestHostComponent;
   let fixture: ComponentFixture<TestHostComponent>;
 

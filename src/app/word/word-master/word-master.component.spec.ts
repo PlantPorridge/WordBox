@@ -5,6 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxsModule } from '@ngxs/store';
 import { WordAddComponent } from '@word/word-add/word-add.component';
 import { WordCardComponent } from '@word/word-card/word-card.component';
+import { WordDefinitionListComponent } from '@word/word-definition-list/word-definition-list.component';
+import { WordDefinitionComponent } from '@word/word-definition/word-definition.component';
 import { WordListComponent } from '@word/word-list/word-list.component';
 import { WordMasterState } from '@word/word-master/state/word-master.state';
 import { BehaviorSubject } from 'rxjs';
@@ -40,7 +42,14 @@ describe('WordMasterComponent', () => {
           WordMasterState
         ])
       ],
-      declarations: [WordMasterComponent, WordListComponent, WordAddComponent, WordCardComponent],
+      declarations: [
+        WordMasterComponent,
+        WordListComponent,
+        WordAddComponent,
+        WordCardComponent,
+        WordDefinitionListComponent,
+        WordDefinitionComponent
+      ],
       providers: [
         { provide: AngularFirestore, useValue: FirestoreStub },
         { provide: AngularFireAuth, useValue: FireAuthStub }

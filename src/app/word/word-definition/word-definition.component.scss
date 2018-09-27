@@ -1,0 +1,15 @@
+@import '../../../styles/global';
+
+.definition__wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.word__part-of-speech {
+    color: $primary;
+    font-style: italic;
+}
+
+.word__definition {
+    color: $info;
+}

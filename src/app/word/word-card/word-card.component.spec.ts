@@ -5,6 +5,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
 import { WordCardComponent } from '@word/word-card/word-card.component';
+import { WordDefinitionListComponent } from '@word/word-definition-list/word-definition-list.component';
+import { WordDefinitionComponent } from '@word/word-definition/word-definition.component';
 import { WordMasterState } from '@word/word-master/state/word-master.state';
 import { BehaviorSubject } from 'rxjs';
 
@@ -32,7 +34,7 @@ describe('WordCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [WordCardComponent],
+      declarations: [WordCardComponent, WordDefinitionListComponent, WordDefinitionComponent],
       imports: [NgxsModule.forRoot([WordMasterState]), HttpClientModule, NoopAnimationsModule],
       providers: [
         { provide: AngularFirestore, useValue: FirestoreStub },
