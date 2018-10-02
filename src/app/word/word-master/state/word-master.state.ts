@@ -1,6 +1,6 @@
 import { AngularFireAuth } from '@angular/fire/auth';
 import { DocumentChangeAction } from '@angular/fire/firestore';
-import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
+import { Action, createSelector, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
 import { WordItem } from '@shared/interfaces/word/word-item.interface';
 import { WordService } from '@word/services/word.service';
 import { AddedWord, AddWord, ModifiedWord, QueryWords, RemovedWord, RemoveWord, Success, UpdateWord } from '@word/word-master/state/word-master.actions';
@@ -24,6 +24,12 @@ export class WordMasterState implements NgxsOnInit {
 
   @Selector() static words(state: AppStateModel) {
     return state.words;
+  }
+
+  static word(word: string) {
+    return createSelector([WordMasterState], (state: AppStateModel) => {
+      return state.words.find(w => w.word === word);
+    });
   }
 
   constructor(

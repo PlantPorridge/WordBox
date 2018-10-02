@@ -1,13 +1,9 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { WordDefinition } from '@shared/interfaces/word/word-definition.interface';
+import { Store } from '@ngxs/store';
 import { WordItem } from '@shared/interfaces/word/word-item.interface';
 import { GetDefintions } from '@word/state/definition/definition.actions';
-import { DefinitionState } from '@word/state/definition/definition.state';
 import { RemoveWord, UpdateWord } from '@word/word-master/state/word-master.actions';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-word-card',
@@ -31,11 +27,11 @@ export class WordCardComponent implements OnInit {
   @Input()
   word: WordItem;
 
-  @Select(DefinitionState.getWordDefinitionsFn) getWordDefinitionsFn$: Observable<(word: string) => WordDefinition[]>;
+  // @Select(DefinitionState.getWordDefinitionsFn) getWordDefinitionsFn$: Observable<(word: string) => WordDefinition[]>;
 
-  get definitions$() {
-    return this.getWordDefinitionsFn$.pipe(map(filterFn => filterFn(this.word.word)));
-  }
+  // get definitions$() {
+  //   return this.getWordDefinitionsFn$.pipe(map(filterFn => filterFn(this.word.word)));
+  // }
 
   constructor(
     private store: Store

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { WordDefinition } from '@shared/interfaces/word/word-definition.interface';
 
 @Component({
@@ -7,7 +7,7 @@ import { WordDefinition } from '@shared/interfaces/word/word-definition.interfac
   styleUrls: ['./word-definition-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class WordDefinitionListComponent implements OnInit {
+export class WordDefinitionListComponent {
 
   @Input()
   definitions: WordDefinition[];
@@ -15,13 +15,19 @@ export class WordDefinitionListComponent implements OnInit {
   @Output()
   selected = new EventEmitter<WordDefinition>();
 
-  constructor() { }
+  public activeIndex: number = 0;
 
-  ngOnInit() {
-  }
+  constructor() { }
 
   onSelected(definition: WordDefinition) {
     this.selected.emit(definition);
   }
 
+  left() {
+    this.activeIndex = (this.activeIndex === 0 ? this.definitions.length : this.activeIndex) - 1;
+  }
+
+  right() {
+    this.activeIndex = (this.activeIndex + 1) % this.definitions.length;
+  }
 }

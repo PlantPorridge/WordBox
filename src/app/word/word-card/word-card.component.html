@@ -5,7 +5,7 @@
     </i>
   </span>
   <div class="word__define">
-    <app-word-definition-list [definitions]="definitions$ | async"></app-word-definition-list>
+    <app-word-definition-list [definitions]="word?.definitions"></app-word-definition-list>
   </div>
 
   <i class="material-icons word__star" (click)="toggleStarred()" [@star]="word?.starred ? 'active' : 'inactive'">

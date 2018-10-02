@@ -45,14 +45,14 @@ describe('WordDefinitionListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display 2 app-word-definition', () => {
+  it('should display 1 app-word-definition', () => {
     let definitions: WordDefinition[] = [
       { definition: 'one', partOfSpeech: PartOfSpeech.ADJECTIVE },
       { definition: 'two', partOfSpeech: PartOfSpeech.ADJECTIVE }
     ]
     component.definitions = definitions;
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelectorAll('app-word-definition').length).toEqual(2);
+    expect(fixture.nativeElement.querySelectorAll('app-word-definition').length).toEqual(1);
   });
 
   it('emit recieved item', () => {

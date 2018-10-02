@@ -1,1 +1,9 @@
-<app-word-definition *ngFor="let definition of definitions" [definition]="definition" (selected)="onSelected($event)"></app-word-definition>
+<div class="definition-list__wrapper" *ngIf="definitions">
+    <app-word-definition class="definition-list__definition" [definition]="definitions[activeIndex]" (selected)="onSelected($event)"></app-word-definition>
+    <i class="material-icons definition-list__left" (click)="left()">
+        arrow_left
+    </i>
+    <i class="material-icons definition-list__right" (click)="right()">
+        arrow_right
+    </i>
+</div>
